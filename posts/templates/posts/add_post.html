@@ -1,0 +1,76 @@
+{% extends 'posts/base.html' %}
+{% load staticfiles %}
+{% block content %}
+<div class="row">
+	<div class="col-md-12">
+		<span id="add-post-header-span">New Post</span>
+	</div>
+</div>
+<div class="row">
+	<div class="col-md-12">
+		<span><a target="_blank" href="/posts/formatting-help/">Post Formatting Help <big>&raquo;</big></a></span>
+	</div>
+</div>
+<hr>
+<form action="/posts/add-post/" id='add-post-form' enctype="multipart/form-data" method="post">{% csrf_token %}
+	{% if form.non_field_errors %}
+	    <ul class='form-errors'>
+	        {% for error in form.non_field_errors %}
+	            <li>{{ error }}</li>
+	        {% endfor %}
+	    </ul>
+	{% endif %}
+	<div class="form-group">
+		{{ form.title.errors }}
+		<input type="text" name="title" class="form-control" value="" id="add-post-title" placeholder="Title">
+	</div>
+	<div class="form-group">
+		{{ form.body.errors }}
+		<textarea form='add-post-form' type="text" name="body" class="form-control" value="" id="add-post-body" placeholder="Write your post here"></textarea>
+	</div>
+	<br>
+	<div class="form-group">
+		<span id="tag-instructions">
+			Enter tags for this post, each separated by a semicolon (e.g. layout;cpoe;ux)
+		</span>
+		{{ form.tags.errors }}
+		<input type="text" name="tags" class="form-control" value="" id="add-post-tags" placeholder="Tags"></textarea>
+	</div>
+	<br>
+	<span id="add-pictures-header">Add Pictures</span>
+	<br>
+	<br>
+	<div class="form-group">
+		<ul class='list-inline'>
+			<li>
+				{{ form.picture1title.errors }}
+				<input type="text" name="picture1title" class="form-control" value="" id="picture-1-title" placeholder="Caption"></textarea>
+				{{ form.picture1.errors }}
+				{{ form.picture1 }}
+				<br>
+				<img id="picture-1-preview" src="http://i.imgur.com/y9VukR9.png" width='200px' alt="New Picture" />
+			<li>
+			<li>
+				{{ form.picture2title.errors }}
+				<input type="text" name="picture2title" class="form-control" value="" id="picture-2-title" placeholder="Caption"></textarea>
+				{{ form.picture2.errors }}
+				{{ form.picture2 }}
+				<br>
+				<img id="picture-2-preview" src="http://i.imgur.com/y9VukR9.png" width='200px' alt="New Picture" />
+			<li>
+			<li>
+				{{ form.picture3title.errors }}
+				<input type="text" name="picture3title" class="form-control" value="" id="picture-3-title" placeholder="Caption"></textarea>
+				{{ form.picture3.errors }}
+				{{ form.picture3 }}
+				<br>
+				<img id="picture-3-preview" src="http://i.imgur.com/y9VukR9.png" width='200px' alt="New Picture" />
+			<li>
+		</ul>
+	</div>
+	<br>
+	<button type="submit" class="add-content-btn">Add Post</button>
+	<br><br>
+</form>
+<script src="{% static 'posts/js/add_post.js' %}"></script>
+{% endblock %}

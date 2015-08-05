@@ -1,0 +1,12 @@
+{% extends 'posts/base.html' %}
+{% block content %}
+	<div class="row">
+		<div class="col-md-12 post-panel-header-container">
+			<span class="post-panel-header">Latest Posts</span>
+		</div>
+	</div>
+	<hr>
+	{% block post_list %}
+    	{% include "posts/post_list.html" %}
+	{% endblock %}
+{% endblock %}

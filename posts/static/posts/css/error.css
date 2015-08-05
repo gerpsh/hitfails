@@ -1,0 +1,26 @@
+#error-banner-container {
+	background-color: #E6E6E6;
+}
+
+#error-banner {
+	font-size: 18pt;
+	font-weight: bold;
+}
+
+#error-banner:hover {
+	text-decoration: none;
+}
+
+#error-header-container {
+	text-align: center;
+}
+
+#error-header {
+	font-size: 36pt;
+	font-weight: bold;
+}
+
+#error-blurb {
+	font-size: 9pt;
+	font-style: italic;
+}

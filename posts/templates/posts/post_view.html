@@ -1,0 +1,82 @@
+{% extends 'posts/base.html'%}
+{% load staticfiles %}
+{% block content %}
+	{% if post %}
+	<div class="row">
+		<div class="col-md-12">
+			<span class="post-title-span">{{ post.title }}</span>
+		</div>
+	</div>
+	<div class="row">
+		<div class="col-md-12">
+			<span class="post-author-span">
+				By <a href="{% url 'user_view' post.user.username %}" class="user-link">{{ post.user }}</a>
+			</span>
+		</div>
+	</div>
+	<br>
+	<div class="row">
+		<div class="col-md-12">
+			{% if marked %}
+				<span onclick="unmark({{ post.pk }}, this)" class="mark-count marked">Upvoted | {{ mark_count }} upvotes</span>
+			{% else %}
+				<span onclick="mark({{ post.pk }}, this)" class="mark-count unmarked">Upvote | {{ mark_count }} upvotes</span>
+			{% endif %}
+		</div>
+	</div>
+	<br>
+	<div class="row">
+		<div class="col-md-12">
+			<p>{{ body|safe }}</p>
+		</div>
+	</div>
+	<br>
+	{% if tags %}
+		<div class="row">
+			<div class="col-md-12 post-tag-container">
+				<ul class="list-inline">
+					{% for tag in tags %}
+						<li class="tag-item"><a href="{% url 'tag_view' tag.name %}">{{ tag.name }}</a></li>
+					{% endfor %}
+				</ul>
+			</div>
+		</div>
+	{% endif %}
+	{% if pictures %}
+		<hr>
+		<div class="row">
+			<div class="col-md-12 picture">
+				<span class="picture-section-title">Pictures</span>
+			</div>
+		</div>
+		<br>
+		<div class="row">
+			<div class="col-md-12 pictures-container">
+				<ul class="list-inline">
+					{% for picture in pictures %}
+						<li>
+							<div class="row">
+								<div class="col-md-12">
+									<span class="picture-caption">{{ picture.title }}</span>
+								</div>
+							</div>
+							<div class="row">
+								<div class="col-md-12">
+									<a href={{ picture.image.url }}><img class="post-picture" src={{ picture.image.url }} height='{{ picture.height }}px' width='{{ picture.width }}px'></img></a>
+								</div>
+							</div>
+						<li>
+					{% endfor %}
+				</div>
+			</ul>
+		</div>
+	{% endif %}
+	<hr>
+	{% block post_list %}
+    	{% include "posts/comment_section.html" %}
+	{% endblock %}
+	{% else %}
+		<p>Post does not exist</p>
+	{% endif %}
+	<script src="{% static 'posts/js/comments.js' %}"></script>
+{% endblock %}

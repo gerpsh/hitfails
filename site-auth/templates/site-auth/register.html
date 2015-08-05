@@ -1,0 +1,48 @@
+{% extends 'site-auth/base.html' %}
+{% load staticfiles %}
+{% block content %}
+	<br>
+	<br>
+	<div class="row">
+		<div class="col-md-12" id="login-header-container">
+			<span id="login-header">Register</span>
+		<div>
+	</div>
+	<div class="row">
+		<div class="col-md-12">
+			<span id="register-blurb">Already have an account? Login <a id="register-link" href="/site-auth/login/">here</a></span>
+		<div>
+	</div>
+	<br>
+	<div class="row">
+		<div class="col-md-12 form-container">
+			<form id="register-form" action="/site-auth/register/" method="post">{% csrf_token %}
+				<div class='col-md-12' class='registration-instructions-container'>
+					<p class='registration-instructions'>
+						Username must be at least 3 characters long and<br>
+						consist of only letters, numbers, and underscores
+					</p>
+				</div>
+				<div class="form-group">
+					<input type="text" name="username" class="form-control" value="" id="username" placeholder="Username">
+					<span id="username-taken">Username taken!</span>
+				</div>
+				<div class='col-md-12' class='registration-instructions-container'>
+					<p class='registration-instructions'>
+						Password must be at least 7 characters <br>
+						long and consist of only letters, numbers, <br>
+						and the !@#$-_ characters<br>
+					</p>
+				</div>
+				<div class="form-group">
+					<input type="password" name="password" class="form-control" value="" id="password" placeholder="Password">
+				</div>
+				<div class="form-group">
+					<input type="password" name="password-again" class="form-control" value="" id="password-again" placeholder="Password (again)">
+				</div>
+				<button disabled id="submit-form" type="submit" class="btn btn-default">Register</button>
+			<form>
+		</div>
+	</div>
+	<script src="{% static 'site-auth/js/registration-ui.js' %}"></script>
+{% endblock %}

@@ -1,0 +1,70 @@
+{% extends 'posts/base.html' %}
+{% load staticfiles %}
+{% block content %}
+<div class="row">
+	<div class="col-md-10">
+		<span id="add-post-header-span">Formatting Help</span>
+	</div>
+</div>
+<hr>
+<div class="row">
+	<div class="col-md-10">
+		<span class="formatting-header">Bold &amp; Italics</span><p></p>
+    <samp>
+      <div class="formatting-block">
+        <p>**bold** = <strong>bold</strong></p>
+        <p>_italic_ = <i>italic</i></p>
+      </div>
+    </samp>
+	</div>
+</div>
+<br>
+<div class="row">
+	<div class="col-md-10">
+		<span class="formatting-header">Links</span><p></p>
+    <div class="formatting-block">
+      <samp>
+        <p>[This is an inline link](http://www.google.com) = <a href="http://www.google.com">This is an inline link</a></p>
+        <p>[Google][1] = Reference link to footnote [1] (see below)</p>
+        <p>[Google][google] = Reference link to [google] footnote (see below)</p>
+        <p><small>[1]: http://www.google.com/</small></p>
+        <p><small>[google]: http://www.google.com/</small></p>
+      </samp>
+    </div>
+	</div>
+</div>
+<br>
+<div class="row">
+	<div class="col-md-10">
+		<span class="formatting-header">Headers</span><p></p>
+    <samp>
+      <div class="formatting-block">
+        <p><small># Big Header</small> = <span class='faux-header-big'>Big Header</span></p>
+        <p><small>## Smaller Header</small> = <span class='faux-header-smaller'>Smaller Header</span></p>
+        <p><small>### Even Smaller Header</small> = <span class='faux-header-even-smaller'>Even Smaller Header</span></p>
+      </div>
+    </samp>
+	</div>
+</div>
+<br>
+<div class="row">
+	<div class="col-md-10">
+		<span class="formatting-header">Newlines</span><p></p>
+    <samp>
+      <div class="formatting-block">
+        <p>To start a new line, either hit return twice or separate two sections of text with <br>two spaces.</p>
+        <p><small>These lines.<br><br>Will be separate</small></p>
+        <br>
+        <p><small>These lines.<mark>&nbsp;&nbsp;</mark>Will be separate too.</p>
+      </div>
+    </samp>
+	</div>
+</div>
+<br>
+<div class="row">
+	<div class="col-md-10">
+		<p class='text-right'><big><a target="_blank" href="https://github.com/adam-p/markdown-here/wiki/Markdown-Cheatsheet">More options (Lists, tables, etc.) <big>&raquo;</big></a><big></p>
+	</div>
+</div>
+
+{% endblock %}

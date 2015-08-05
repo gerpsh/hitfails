@@ -1,0 +1,44 @@
+<!DOCTYPE html>
+{% load staticfiles %}
+<html lang="en">
+<head>
+	<link rel="stylesheet" type="text/css" href="{% static 'posts/css/bootstrap.min.css' %}" />
+	<link rel="stylesheet" type="text/css" href="{% static 'posts/css/bootstrap-theme.min.css' %}" />
+	<link rel="stylesheet" type="text/css" href="{% static 'posts/css/base.css' %}" />
+	<link href='http://fonts.googleapis.com/css?family=Pacifico' rel='stylesheet' type='text/css'>
+	<link href='http://fonts.googleapis.com/css?family=Lato:400,700|Roboto:400,700|Slabo+27px' rel='stylesheet' type='text/css'>
+	<script src="https://code.jquery.com/jquery-1.11.3.min.js"></script>
+	<script src="{% static 'posts/js/bootstrap.js' %}"></script>
+	<meta name="viewport" content="width=device-width, initial-scale=1">
+</head>
+<body>
+	<div class="container-fluid">
+		<div class="jumbotron" id="jumbo">
+			<h1><a id="site-title" href='/posts/'>HIT Fails</a></h1><h2><small>Health IT sucks sometimes. Share your frustration here.</small></h2>
+		</div>
+		<div class="row">
+			<div class="col-md-12 mid-toolbar">
+				{% if user.is_authenticated %}
+					<span class="login-link">{{ request.user }} | <a id="logout-link" href="/site-auth/logout/">Log out</a></span>
+				{% else %}
+					<span class="login-link"><a href="/site-auth/login/">Login/Register</a></span>
+				{% endif %}
+			</div>
+		</div>
+		<div class="row">
+			<div class="col-md-9" id="post-panel">
+				{% block content %}
+				{% endblock %}
+				<hr>
+			</div>
+			<div class="col-md-3" id="nav-panel">
+				<a href="/posts/add-post/"><button class="sidebar-btn" id="submit-new-post">Submit a New Post</button></a>
+			</div>
+		</div>
+		{% block footer %}
+    		{% include "posts/footer.html" %}
+		{% endblock %}
+	</div>
+</body>
+<script src="{% static 'posts/js/marks.js' %}"></script>
+</html>

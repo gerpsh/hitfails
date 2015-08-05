@@ -1,0 +1,23 @@
+{% load staticfiles %}
+<!DOCTYPE html>
+<html lang="en">
+<head>
+	<link rel="stylesheet" type="text/css" href="{% static 'site-auth/css/bootstrap.css' %}" />
+	<link rel="stylesheet" type="text/css" href="{% static 'site-auth/css/bootstrap-theme.css' %}" />
+	<link rel="stylesheet" type="text/css" href="{% static 'site-auth/css/site-auth.css' %}" />
+	<script src="https://code.jquery.com/jquery-1.11.3.min.js"></script>
+	<script src="{% static 'posts/js/bootstrap.js' %}"></script>
+	<meta name="viewport" content="width=device-width, initial-scale=1">
+</head>
+<body>
+	<div class="container-fluid">
+		<div class="row">
+			<div class="col-md-12" id="registration-banner-container">
+				<span><a id="registration-banner" href="/posts/">HIT Fails</a></span>
+			</div>
+		</div>
+		{% block content %}
+		{% endblock %}
+	</div>
+</body>
+</html>

@@ -1,0 +1,323 @@
+/*
+General
+*/
+a:hover {
+	text-decoration: none;
+}
+
+/*
+base.html
+*/
+
+#jumbo {
+	padding-left: 15px;
+	padding-top: 20px;
+	padding-bottom: 20px;
+	margin-bottom: 0px;
+	border-radius: 0px;
+}
+
+
+.post-title-span {
+	font-size: 14pt;
+	font-weight: bold;
+}
+
+.post-author {
+	font-size: 10pt;
+	font-weight: bold;
+	margin-bottom: 10px;
+}
+
+.post-container {
+	border-right: 1px dotted gray;
+}
+
+.tag-item {
+	background-color: #99CCFF;
+	margin-left: 5px;
+	border-radius: 3px;
+}
+
+.post-panel-header {
+	font-size: 26pt;
+	font-weight: bold;
+}
+
+.sidebar-btn {
+	position: relative;
+	vertical-align: top;
+	width: 100%;
+	height: 60px;
+	padding: 0;
+	font-size: 22px;
+	color: white;
+	text-align: center;
+	text-shadow: 0 1px 2px rgba(0, 0, 0, 0.25);
+	background: #3498db;
+	border: 0;
+	border-bottom: 2px solid #2a8bcc;
+	cursor: pointer;
+	-webkit-box-shadow: inset 0 -2px #2a8bcc;
+	box-shadow: inset 0 -2px #2a8bcc;
+	margin-bottom: 10px;
+}
+
+.sidebar-btn:active {
+	top: 1px;
+	outline: none;
+	-webkit-box-shadow: none;
+	box-shadow: none;
+}
+
+.mid-toolbar {
+	background-color: #E8F3FF;
+	display: inline-block;
+	margin-left: 1.2%;
+	margin-bottom: 13px;
+	width: 97.65%;
+}
+
+#previous-page {
+	float: left;
+}
+
+#next-page {
+	float: right;
+}
+
+.login-link {
+	float: right;
+	font-weight: bold;
+	font-size: 14pt;
+}
+
+.mark-count {
+	color: #757272;
+	font-weight: bold;
+	background-color: #E8F3FF;
+	border-radius: 5px;
+	padding: 5px;
+	border: 1px solid gray;
+}
+
+.mark-count:hover {
+	border: 1px solid black;
+	opacity: 0.7;
+}
+
+.unmarked {
+	background-color: #E8F3FF;
+}
+
+.marked {
+	background-color: #F2F2F2;
+}
+
+.picture-caption {
+	font-size: 10pt;
+	font-weight: bold;
+	max-width: 200px;
+	display: block;
+}
+
+.picture-section-title {
+	font-size: 16pt;
+	font-weight: bold;
+}
+
+.post-picture {
+	border: 1px solid black;
+}
+
+.post-picture:hover {
+	border: 1px solid gray;
+}
+
+#site-title {
+	font-family: 'Pacifico', cursive;
+	font-size: 72pt;
+}
+
+#site-title:hover {
+	text-decoration: none;
+}
+
+#footer-container {
+	background-color: #D8D8D8;
+	height:100px;
+	text-align: center;
+	border-top: solid gray 1px;
+}
+
+.pagination-container {
+	text-align: center;
+}
+
+#current-page {
+	font-weight: bold;
+	color: #757272;
+}
+
+.page-link {
+	font-size: 14pt;
+	background-color: #D8D8D8;
+	border-radius: 5px;
+	padding: 3px 5px 3px 5px;
+}
+
+#footer {
+	font-size: 12pt;
+	font-weight: bold;
+	margin-top: 20px
+}
+
+/*
+	add_post.html
+*/
+
+.list-equals {
+	font-size: 36pt;
+}
+
+#add-post-header-span {
+	font-size: 20pt;
+	font-weight: bold;
+}
+
+#add-post-title {
+	width: 50%;
+}
+
+#add-post-body {
+	height: 250px;
+}
+
+#add-post-tags {
+	width: 50%;
+}
+
+#tag-instructions {
+	font-size: 9pt;
+	font-weight: bold;
+}
+
+#add-pictures-header {
+	font-size: 14pt;
+	font-weight: bold;
+}
+
+#add-new-post-btn {
+  position: relative;
+  vertical-align: top;
+  width: 100%;
+  height: 60px;
+  padding: 0;
+  font-size: 22px;
+  color: white;
+  text-align: center;
+  text-shadow: 0 1px 2px rgba(0, 0, 0, 0.25);
+  background: #3498db;
+  border: 0;
+  border-bottom: 2px solid #2a8bcc;
+  cursor: pointer;
+  -webkit-box-shadow: inset 0 -2px #2a8bcc;
+  box-shadow: inset 0 -2px #2a8bcc;
+}
+
+#add-new-post-btn:active {
+  top: 1px;
+  outline: none;
+  -webkit-box-shadow: none;
+  box-shadow: none;
+}
+
+.add-content-btn {
+  vertical-align: top;
+  float: right;
+  width: 20%;
+  height: 40px;
+  padding: 0;
+  font-size: 16px;
+  color: white;
+  text-align: center;
+  text-shadow: 0 1px 2px rgba(0, 0, 0, 0.25);
+  background: #3498db;
+  border: 0;
+  border-bottom: 2px solid #2a8bcc;
+  cursor: pointer;
+  -webkit-box-shadow: inset 0 -2px #2a8bcc;
+  box-shadow: inset 0 -2px #2a8bcc;
+}
+
+.add-content-btn:active {
+	top: 1px;
+	outline: none;
+	-webkit-box-shadow: none;
+	box-shadow: none;
+}
+
+
+#footer-top-divider {
+	border: 0;
+	color: #9E9E9E;
+	background-color: #9E9E9E;
+	height: 1px;
+	width: 100%;
+	text-align: left;
+}
+
+#add-parent-body {
+	height: 120px;
+}
+
+.parent-comment-username {
+	font-size: 12pt;
+}
+
+#comment-section-title {
+	font-size: 16pt;
+	font-weight: bold;
+}
+
+.parent-comment-header {
+	background-color: #F2F2F2;
+	padding-left: 7px;
+}
+
+.parent-comment-body {
+	padding-left: 7px;
+}
+
+#empty-comment-warning {
+	display: none;
+	font-weight: bold;
+	color: red;
+}
+
+.latest-parent-comment {
+	display: none;
+}
+
+/*
+	Formatting help page
+*/
+
+.formatting-header {
+	font-size: 14pt;
+	font-weight: bold;
+}
+
+.formatting-block {
+	background-color: #F2F2F2;
+	padding-top: 9px;
+	padding-bottom: 5px;
+}
+
+.faux-header-big {
+	font-size: 20pt;
+}
+
+.faux-header-smaller {
+	font-size: 14pt;
+}
