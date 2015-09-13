@@ -8,11 +8,10 @@ class Post(models.Model):
 	modified = models.DateTimeField(auto_now=True)
 	title = models.CharField(max_length=100, blank=True, default='')
 	body = models.TextField()
-	user = models.ForeignKey(User)
 	flagged = models.BooleanField(default=False)
 
 	def __unicode__(self):
-		return(self.title + '|' + self.user.username + '|' + str(self.created))
+		return(self.title + '|' + str(self.created))
 
 	class Meta:
 	     ordering = ('created',)
@@ -34,13 +33,12 @@ class Tag(models.Model):
 class ParentComment(models.Model):
 	created = models.DateTimeField(auto_now_add=True)
 	modified = models.DateTimeField(auto_now=True)
-	user = models.ForeignKey(User)
 	post = models.ForeignKey(Post)
 	body = models.TextField()
 	flagged = models.BooleanField(default=False)
 
 	def __unicode__(self):
-		return('Parent Comment|' + self.post.title + '|' + self.user.username + '|' + str(self.created))
+		return('Parent Comment|' + self.post.title + '|' + '|' + str(self.created))
 
 	class Meta:
 		ordering = ('created',)
@@ -49,13 +47,12 @@ class ParentComment(models.Model):
 class ChildComment(models.Model):
 	created = models.DateTimeField(auto_now_add=True)
 	modified = models.DateTimeField(auto_now=True)
-	user = models.ForeignKey(User)
 	parent = models.ForeignKey(ParentComment)
 	body = models.TextField()
 	flagged = models.BooleanField(default=False)
 
 	def __unicode__(self):
-		return('Child Comment|' + self.parent.post.title + '|' + self.user.username + '|' + str(self.created))
+		return('Child Comment|' + self.parent.post.title + '|' + str(self.created))
 
 	class Meta:
 		ordering = ('created',)
@@ -63,11 +60,10 @@ class ChildComment(models.Model):
 #Like a 'star' on Twitter or an 'upvote' on Quora
 class Mark(models.Model):
 	created = models.DateTimeField(auto_now_add=True)
-	user = models.ForeignKey(User)
 	post = models.ForeignKey(Post)
 
 	def __unicode__(self):
-		return(self.post.title + '|' + self.user.username + '|' + str(self.created))
+		return(self.post.title + '|' + str(self.created))
 
 	class Meta:
 		ordering= ('created',)

@@ -6,7 +6,6 @@ urlpatterns = [
     url(r'^$', RedirectView.as_view(url='/posts/')),
 	url(r'^admin/', include(admin.site.urls)),
 	url(r'^posts/', include('posts.urls')),
-	url(r'^site-auth/', include('site-auth.urls')),
 ]
 
 handler404 = 'posts.views.resource_not_found'

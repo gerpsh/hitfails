@@ -15,18 +15,6 @@
 							<a href="{% url 'post_view' preview.post_id %}">{{ preview.title }}</a>
 						<span>
 						<br>
-						<p class="post-author">
-							By <a href="{% url 'user_view' preview.user.username %}">{{ preview.user.username }}</a>
-						</p>
-					</div>
-				</div>
-				<div class="row">
-					<div class="col-md-12">
-						{% if preview.marked %}
-							<span onclick="unmark({{ preview.post_id }}, this)" class="mark-count marked">Upvoted | {{ preview.mark_count }} upvotes</span>
-						{% else %}
-							<span onclick="mark({{ preview.post_id }}, this)" class="mark-count unmarked">Upvote | {{ preview.mark_count }} upvotes</span>
-						{% endif %}
 					</div>
 				</div>
 				<br>

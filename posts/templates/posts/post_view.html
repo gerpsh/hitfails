@@ -7,23 +7,7 @@
 			<span class="post-title-span">{{ post.title }}</span>
 		</div>
 	</div>
-	<div class="row">
-		<div class="col-md-12">
-			<span class="post-author-span">
-				By <a href="{% url 'user_view' post.user.username %}" class="user-link">{{ post.user }}</a>
-			</span>
-		</div>
-	</div>
 	<br>
-	<div class="row">
-		<div class="col-md-12">
-			{% if marked %}
-				<span onclick="unmark({{ post.pk }}, this)" class="mark-count marked">Upvoted | {{ mark_count }} upvotes</span>
-			{% else %}
-				<span onclick="mark({{ post.pk }}, this)" class="mark-count unmarked">Upvote | {{ mark_count }} upvotes</span>
-			{% endif %}
-		</div>
-	</div>
 	<br>
 	<div class="row">
 		<div class="col-md-12">

@@ -70,15 +70,13 @@ $(function() {
           type : "POST",
           data : { body : bodyText },
           success : function(json) {
-            if((json.authenticated === 1) && (bodyText != '')){
+            if(bodyText != ''){
               $("#empty-comment-warning").hide(50, function() {});
               $('#add-parent-body').val(''); //clear input box
-              var comment = "<div class='row latest-parent-comment'><div class='col-md-8 parent-comment-container'><p class='parent-comment-header'><span class='parent-comment-username'><a href='/posts/user/" + json.user + "/'>" + json.user + "</a></span> | <span class='parent-comment-time'><strong>" + json.time + "</strong></span></p><p class='parent-comment-body'>" + json.body + "</p><p></p></div></div><br>";
+              var comment = "<div class='row latest-parent-comment'><div class='col-md-8 parent-comment-container'><p class='parent-comment-header'><span class='parent-comment-time'><strong>" + json.time + "</strong></span></p><p class='parent-comment-body'>" + json.body + "</p><p></p></div></div><br>";
               $(comment).prependTo("#comments-container");
               $(".latest-parent-comment").show(500, function() {});
-            } else if(json.authenticated === 0) {
-              window.location = "/site-auth/login/";
-            } else if(bodyText == '') {
+            } else {
               $("#empty-comment-warning").show(50, function() {});
             }
           },

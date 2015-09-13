@@ -18,11 +18,7 @@
 		</div>
 		<div class="row">
 			<div class="col-md-12 mid-toolbar">
-				{% if user.is_authenticated %}
-					<span class="login-link">{{ request.user }} | <a id="logout-link" href="/site-auth/logout/">Log out</a></span>
-				{% else %}
-					<span class="login-link"><a href="/site-auth/login/">Login/Register</a></span>
-				{% endif %}
+				<span>&nbsp;</span>
 			</div>
 		</div>
 		<div class="row">

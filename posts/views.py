@@ -5,9 +5,6 @@ from functools import wraps
 from django.shortcuts import render, get_object_or_404, redirect
 from django.http import HttpResponse, HttpResponseRedirect
 from .models import *
-from django.contrib.auth.models import User
-from django.contrib.auth import authenticate, login, logout
-from django.contrib.auth.decorators import login_required
 from django.core.context_processors import csrf
 from django.core.paginator import Paginator, EmptyPage, PageNotAnInteger
 from django.views.decorators.csrf import csrf_exempt
@@ -25,40 +22,17 @@ def jmap(f, l):
 def exclude_flagged(l):
 	return list(filter(lambda e: e.flagged == False, l))
 
-#check if user marked/upvoted post
-def user_marked_post(username, post_id):
-	user = User.objects.filter(username=username)
-	#if user isn't logged in, just return false
-	if user:
-		post = Post.objects.get(pk=post_id)
-		marks = post.mark_set.filter(user=user)
-		if marks:
-			return True
-	return False
-
-#go through list of post previews, change marked property as needed
-#hacky (no return value), but it works
-def set_marked(l, username):
-	marked_check_list = []
-	for preview in l:
-		if user_marked_post(username, preview.post_id):
-			preview.marked = True
-
 #Preview for list view
 class PostPreview():
 	def __init__(self, post):
 		self.post_id = post.pk
 		self.title = post.title
-		self.user = post.user
+		#self.user = post.user
 		self.post_time = post.created
 		self.flagged = post.flagged
 		#first 75 words for preview
 		self.preview_text = md(' '.join(post.body.split(' ')[:75]) + '...')
 		self.tags = exclude_flagged(post.tag_set.all())
-		self.marks = post.mark_set.all()
-		self.mark_count = post.mark_set.all().count()
-		#user has marked post or not, default false
-		self.marked = False
 
 
 def cast_post_to_preview(post):
@@ -87,8 +61,6 @@ def index(request):
 	last_posts = jmap(cast_post_to_preview, Post.objects.order_by('-created'))
 	#exclude posts that have been flagged by admins
 	last_posts = exclude_flagged(last_posts)
-	#change marked attributed if the current user has marked it
-	set_marked(last_posts, request.user)
 	#5 posts per preview
 	paginator = Paginator(last_posts, 5)
 	page = request.GET.get('page')
@@ -104,51 +76,10 @@ def index(request):
 	context = {'posts': posts, 'header': header_text}
 	return render(request, 'posts/list_view.html', context)
 
-#add mark to post
-@csrf_exempt
-def add_mark(request, post_id):
-	if request.method == 'POST':
-		post = get_object_or_404(Post, pk=post_id)
-		if request.user.is_authenticated():
-			user = User.objects.get(username=request.user)
-			try:
-				m = Mark(user=user, post=post)
-				m.save()
-				mark_count = post.mark_set.all().count()
-				response = json.dumps({"status": 1, "marks": str(mark_count)})
-				return HttpResponse(response, content_type="application/json")
-			except:
-				response = json.dumps({"status": 0})
-				return HttpResponse(response, content_type="application/json")
-		else:
-			return HttpResponseRedirect("/site-auth/login/")
-	else:
-		return render(request, 'posts/500.html')
-
-@csrf_exempt
-def remove_mark(request, post_id):
-	if request.method == 'POST':
-		post = get_object_or_404(Post, pk=post_id)
-		if request.user.is_authenticated():
-			user = User.objects.get(username=request.user)
-			try:
-				m = Mark.objects.filter(post=post, user=user).delete()
-				mark_count = post.mark_set.all().count()
-				response = json.dumps({"status": 1, "marks": str(mark_count)})
-				return HttpResponse(response, content_type="application/json")
-			except:
-				response = json.dumps({"status": 0})
-				return HttpResponse(response, content_type="application/json")
-		else:
-			return HttpResponseRedirect("/site-auth/login/")
-	else:
-		print('500 error')
-		return render(request, 'posts/500.html')
-
 def post_view(request, post_id):
 	post = get_object_or_404(Post, pk=post_id)
-	marked = user_marked_post(request.user, post_id)
-	mark_count = post.mark_set.all().count()
+	#marked = user_marked_post(request.user, post_id)
+	#mark_count = post.mark_set.all().count()
 	pictures = exclude_flagged(jmap(cast_picture_to_preview, post.picture_set.all()))
 	if len(pictures) == 0:
 		pictures = None
@@ -159,7 +90,7 @@ def post_view(request, post_id):
 	if len(comments) == 0:
 		comments = None
 	comment_form = ParentCommentForm()
-	context = {'post': post, 'body': md(post.body), 'marked': marked, 'mark_count': mark_count, 'pictures': pictures, 'tags': tags, 'comments': comments, 'comment_form': comment_form}
+	context = {'post': post, 'body': md(post.body), 'pictures': pictures, 'tags': tags, 'comments': comments, 'comment_form': comment_form}
 	return render(request, 'posts/post_view.html', context)
 
 def tag_view(request, tag_name):
@@ -181,33 +112,12 @@ def tag_view(request, tag_name):
 
 	return render(request, 'posts/list_view.html', context)
 
-def user_view(request, user):
-	this_user = get_object_or_404(User, username=user.lower())
-	username = this_user.username
-	posts = jmap(cast_post_to_preview, this_user.post_set.all())
-
-	paginator = Paginator(posts, 5)
-	page = request.GET.get('page')
-
-	try:
-		posts = paginator.page(page)
-	except PageNotAnInteger:
-		posts = paginator.page(1)
-	except EmptyPage:
-		posts = paginator.page(paginator.num_pages)
-
-	header_text = '{0}\'s Posts'.format(user)
-	context = {'posts': posts, 'username': username, 'header': header_text}
-	return render(request, 'posts/list_view.html', context)
-
 #post new entry
-@login_required(login_url='/site-auth/login/')
 def post_form(request):
 	if request.method == 'POST':
-		user = User.objects.get(username=request.user)
+		#user = User.objects.get(username=request.user)
 		form = PostForm(request.POST, request.FILES)
 		if form.is_valid():
-			user = request.user
 			title = request.POST['title']
 			body = request.POST['body']
 			raw_tags = request.POST['tags']
@@ -233,7 +143,7 @@ def post_form(request):
 			except:
 				pass
 
-			new_post = Post(title=title, body=body, user=user)
+			new_post = Post(title=title, body=body)
 			new_post.save()
 
 			if picture_1:
@@ -276,33 +186,25 @@ def post_form(request):
 def formatting_help(request):
 	return render(request, 'posts/formatting_help.html')
 
-#can't use login required decorator here bc it's an ajax call,
-#but remember that login is required; login enforced via comments.js
+
 def add_parent_comment(request, post_id):
 	post = get_object_or_404(Post, pk=post_id)
 	if request.method == 'POST':
-		if request.user.is_authenticated():
-			current_user = User.objects.get(username=request.user)
-			form = ParentCommentForm(request.POST)
-			if form.is_valid():
-				body = form.cleaned_data['body']
-				comment = ParentComment(user=current_user, post=post, body=body)
-				comment.save()
-				#we'll redirect if the user isn't authenticated, we pass authentication status it as a field
-				response = json.dumps({"authenticated": 1, "user": comment.user.username, "body": comment.body, "time": comment.created.strftime("%m/%d/%Y %H:%M")})
-				return HttpResponse(response, content_type="application/json")
-			else:
-				form = ParentCommentForm()
-				return HttpResponseRedirect('/posts/' + str(post_id))
+		form = ParentCommentForm(request.POST)
+		if form.is_valid():
+			body = form.cleaned_data['body']
+			comment = ParentComment(post=post, body=body)
+			comment.save()
+			#we'll redirect if the user isn't authenticated, we pass authentication status it as a field
+			response = json.dumps({"body": comment.body, "time": comment.created.strftime("%m/%d/%Y %H:%M")})
+			return HttpResponse(response, content_type="application/json")
 		else:
-			print("user not authenticated")
-			return HttpResponse(json.dumps({"authenticated": 0}), content_type="application/json")
+			form = ParentCommentForm()
+			return HttpResponseRedirect('/posts/' + str(post_id))
 	else:
 		print("A GET? Some hacking is going on...")
 		return HttpResponseRedirect('/posts/' + str(post_id))
 
-#not implemented yet
-@login_required(login_url='/site-auth/login/')
 def add_child_comment(request, parent_id):
 	pass
 

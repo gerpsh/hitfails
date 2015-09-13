@@ -31,7 +31,7 @@
 	{% for comment in comments %}
 		<div class="row">
 			<div class='col-md-8 parent-comment-container'>
-				<p class="parent-comment-header"><span class="parent-comment-username"><a href="{% url 'user_view' comment.user.username %}">{{ comment.user.username }}</a></span> | <span class="parent-comment-time"><strong>{{ comment.created }}</strong></span></p>
+				<p class="parent-comment-header"><span class="parent-comment-time"><strong>{{ comment.created }}</strong></span></p>
 				<p class="parent-comment-body">{{ comment.body }}</p>
 				<p></p>
 			</div>
