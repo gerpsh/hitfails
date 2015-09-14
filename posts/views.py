@@ -118,12 +118,21 @@ def post_form(request):
 		#user = User.objects.get(username=request.user)
 		form = PostForm(request.POST, request.FILES)
 		if form.is_valid():
+			human = request.POST['human']
+
+			#anti-spam
+			if human and human.lower() == 'blue':
+				pass
+			else:
+				return HttpResponseRedirect('/posts/')
+				
 			title = request.POST['title']
 			body = request.POST['body']
 			raw_tags = request.POST['tags']
 			picture_1_title = request.POST['picture1title']
 			picture_2_title = request.POST['picture2title']
 			picture_3_title = request.POST['picture3title']
+
 
 			picture_1 = None
 			try:
@@ -158,11 +167,14 @@ def post_form(request):
 				i = Picture(image=picture_3, title=picture_3_title, post=new_post)
 				i.save()
 
+
+
 			#clean tags up
 			tag_list = raw_tags.strip(';').split(';')
 			tag_list = [t.lower() for t in tag_list]
 			#don't accept blank tags
 			tag_list = [t for t in tag_list if len(t) > 0]
+
 
 			for tag in tag_list:
 				tag = tag.strip()

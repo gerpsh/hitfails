@@ -13,6 +13,7 @@ class PostForm(forms.Form):
 	picture2 = forms.ImageField(required=False)
 	picture3title = forms.CharField(max_length=100, required=False)
 	picture3 = forms.ImageField(required=False)
+	human = forms.CharField(required=True)
 
 #submit a comment form
 class ParentCommentForm(forms.Form):
@@ -23,6 +24,6 @@ class PostSearchForm(SearchForm):
 
 	def search(self):
 		sqs = super(PostSearchForm, self).search()
-		
+
 		if not self.is_valid():
 			return self.no_query_found()

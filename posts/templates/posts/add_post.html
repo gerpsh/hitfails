@@ -69,6 +69,14 @@
 		</ul>
 	</div>
 	<br>
+	<div class="form-group">
+		<span id="tag-instructions">
+			Prove you're a human.  What color is a clear sky? (hint: it begins with a 'b')
+		</span>
+		{{ form.tags.errors }}
+		<input type="text" name="human" class="form-control" value="" placeholder="">
+	</div>
+	<br>
 	<button type="submit" class="add-content-btn">Add Post</button>
 	<br><br>
 </form>
