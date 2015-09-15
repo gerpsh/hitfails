@@ -207,6 +207,10 @@ base.html
 	font-weight: bold;
 }
 
+#prove-human {
+	width: 30%;
+}
+
 #add-new-post-btn {
   position: relative;
   vertical-align: top;
