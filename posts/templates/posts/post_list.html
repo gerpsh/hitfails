@@ -15,6 +15,10 @@
 							<a href="{% url 'post_view' preview.post_id %}">{{ preview.title }}</a>
 						<span>
 						<br>
+						<span class="post-date-span">
+							{{ preview.post_time|date:'h:m A, m/d/y' }}
+						<span>
+						<br>
 					</div>
 				</div>
 				<br>
@@ -30,7 +34,7 @@
 						<ul class="list-inline">
 							{% if preview.tags %}
 								{% for tag in preview.tags %}
-									<li class="tag-item"><a href="{% url 'tag_view' tag.name %}">{{ tag.name }}</a></li>
+									<li class="tag-item"><a href={% url 'tag_view' tag.name|urlencode %}>{{ tag.name }}</a></li>
 								{% endfor %}
 							{% endif %}
 						</ul>

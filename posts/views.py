@@ -1,6 +1,7 @@
 import json
 import datetime
 import markdown
+import urllib
 from functools import wraps
 from django.shortcuts import render, get_object_or_404, redirect
 from django.http import HttpResponse, HttpResponseRedirect
@@ -27,7 +28,6 @@ class PostPreview():
 	def __init__(self, post):
 		self.post_id = post.pk
 		self.title = post.title
-		#self.user = post.user
 		self.post_time = post.created
 		self.flagged = post.flagged
 		#first 75 words for preview
@@ -94,7 +94,7 @@ def post_view(request, post_id):
 	return render(request, 'posts/post_view.html', context)
 
 def tag_view(request, tag_name):
-	tag = get_object_or_404(Tag, name=tag_name)
+	tag = get_object_or_404(Tag, name=urllib.unquote(tag_name))
 	posts = jmap(cast_post_to_preview, tag.posts.all())
 
 	paginator = Paginator(posts, 5)
@@ -107,7 +107,7 @@ def tag_view(request, tag_name):
 	except EmptyPage:
 		posts = paginator.page(paginator.num_pages)
 
-	header_text = 'Posts Tagged with {0}'.format(tag_name)
+	header_text = 'Posts Tagged with "{0}"'.format(urllib.unquote(tag_name))
 	context = { 'tag': tag, 'posts': posts, 'header': header_text}
 
 	return render(request, 'posts/list_view.html', context)
@@ -125,13 +125,13 @@ def post_form(request):
 				pass
 			else:
 				return HttpResponseRedirect('/posts/')
-				
+
 			title = request.POST['title']
 			body = request.POST['body']
-			raw_tags = request.POST['tags']
-			picture_1_title = request.POST['picture1title']
-			picture_2_title = request.POST['picture2title']
-			picture_3_title = request.POST['picture3title']
+			raw_tags = request.POST.get('tags', False)
+			picture_1_title = request.POST.get('picture1title', False)
+			picture_2_title = request.POST.get('picture2title', False)
+			picture_3_title = request.POST.get('picture3title', False)
 
 
 			picture_1 = None
@@ -148,7 +148,7 @@ def post_form(request):
 
 			picture_3 = None
 			try:
-				picture_3 = request.FILES['picture3']
+				picture_3 = request.FILES.get['picture3']
 			except:
 				pass
 
@@ -170,10 +170,8 @@ def post_form(request):
 
 
 			#clean tags up
-			tag_list = raw_tags.strip(';').split(';')
-			tag_list = [t.lower() for t in tag_list]
-			#don't accept blank tags
-			tag_list = [t for t in tag_list if len(t) > 0]
+			tag_list = raw_tags.strip(';').lower().split(';')
+			tag_list = [t.strip() for t in tag_list if len(t) > 0]
 
 
 			for tag in tag_list:
@@ -190,7 +188,16 @@ def post_form(request):
 				t.posts.add(new_post)
 			return HttpResponseRedirect('/posts/' + str(new_post.pk))
 		else:
-			return render(request, 'posts/add_post.html', {'form': form })
+			context = {}
+			context['body_text'] = request.POST['body']
+			context['title_text'] = request.POST['title']
+			context['tags_text'] = request.POST['tags']
+			context['picture1text'] = request.POST.get('picture1title', False)
+			context['picture2text'] = request.POST.get('picture2title', False)
+			context['picture3text'] = request.POST.get('picture3title', False)
+			context['form'] = form
+
+			return render(request, 'posts/add_post.html', context)
 	elif request.method == 'GET':
 		form = PostForm()
 		return render(request, 'posts/add_post.html', {'form': form})

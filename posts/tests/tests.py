@@ -41,9 +41,15 @@ class PostSubmitTest(TestCase):
         for s in blns:
             response = c.post('/posts/add-post/', {'title': 'test title', 'body': 'test body', 'tags': s})
             self.assertEqual(response.status_code, 200)
+            response = c.get('/posts/')
+            self.assertEqual(response.status_code, 200)
 
             response = c.post('/posts/add-post/', {'title': 'test title', 'body': s, 'tags': 'lol;fail;win'})
             self.assertEqual(response.status_code, 200)
+            response = c.get('/posts/')
+            self.assertEqual(response.status_code, 200)
 
             response = c.post('/posts/add-post/', {'title': s, 'body': 'test body', 'tags': 'lol;fail;win'})
+            self.assertEqual(response.status_code, 200)
+            response = c.get('/posts/')
             self.assertEqual(response.status_code, 200)

@@ -23,6 +23,14 @@ base.html
 	font-weight: bold;
 }
 
+.post-date-span {
+	font-size: 10pt;
+	font-weight: bold;
+	color: #635b5b;
+}
+
+
+
 .post-author {
 	font-size: 10pt;
 	font-weight: bold;
@@ -175,6 +183,11 @@ base.html
 /*
 	add_post.html
 */
+
+.form-error {
+	color: red;
+	font-weight: bold;
+}
 
 .list-equals {
 	font-size: 36pt;

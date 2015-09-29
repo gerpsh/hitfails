@@ -36,7 +36,7 @@
 				<hr>
 				<form action="/posts/add-post/" id='add-post-form' enctype="multipart/form-data" method="post">{% csrf_token %}
 					{% if form.non_field_errors %}
-					    <ul class='form-errors'>
+					    <ul class='form-error'>
 					        {% for error in form.non_field_errors %}
 					            <li>{{ error }}</li>
 					        {% endfor %}
@@ -44,19 +44,20 @@
 					{% endif %}
 					<div class="form-group">
 						{{ form.title.errors }}
-						<input type="text" name="title" class="form-control" value="" id="add-post-title" placeholder="Title">
+						<input type="text" name="title" class="form-control" value="{{ title_text }}" id="add-post-title" placeholder="Title"></textarea>
 					</div>
 					<div class="form-group">
-						{{ form.body.errors }}
-						<textarea form='add-post-form' type="text" name="body" class="form-control" value="" id="add-post-body" placeholder="Write your post here"></textarea>
+						<span class="form-error">{{ form.body.errors }}</span>
+						<textarea form='add-post-form' type="text" name="body" class="form-control" value="" id="add-post-body" placeholder="Write your post here">{% if body_text %}{{ body_text }}{% endif %}</textarea>
 					</div>
 					<br>
 					<div class="form-group">
 						<span id="tag-instructions">
 							Enter tags for this post, each separated by a semicolon (e.g. layout;cpoe;ux)
 						</span>
-						{{ form.tags.errors }}
-						<input type="text" name="tags" class="form-control" value="" id="add-post-tags" placeholder="Tags"></textarea>
+						<br>
+						<span class="form-error">{{ form.tags.errors }}</span>
+						<input type="text" name="tags" class="form-control" value="{{ tags_text }}" id="add-post-tags" placeholder="Tags"></textarea>
 					</div>
 					<br>
 					<span id="add-pictures-header">Add Pictures</span>
@@ -66,7 +67,7 @@
 						<ul class='list-inline'>
 							<li>
 								{{ form.picture1title.errors }}
-								<input type="text" name="picture1title" class="form-control" value="" id="picture-1-title" placeholder="Caption"></textarea>
+								<input type="text" name="picture1title" class="form-control" value="{{ picture1text }}" id="picture-1-title" placeholder="Caption"></textarea>
 								{{ form.picture1.errors }}
 								{{ form.picture1 }}
 								<br>
@@ -74,7 +75,7 @@
 							<li>
 							<li>
 								{{ form.picture2title.errors }}
-								<input type="text" name="picture2title" class="form-control" value="" id="picture-2-title" placeholder="Caption"></textarea>
+								<input type="text" name="picture2title" class="form-control" value="{{ picture2text }}" id="picture-2-title" placeholder="Caption"></textarea>
 								{{ form.picture2.errors }}
 								{{ form.picture2 }}
 								<br>
@@ -82,7 +83,7 @@
 							<li>
 							<li>
 								{{ form.picture3title.errors }}
-								<input type="text" name="picture3title" class="form-control" value="" id="picture-3-title" placeholder="Caption"></textarea>
+								<input type="text" name="picture3title" class="form-control" value="{{ picture3text }}" id="picture-3-title" placeholder="Caption"></textarea>
 								{{ form.picture3.errors }}
 								{{ form.picture3 }}
 								<br>
@@ -95,7 +96,7 @@
 						<span id="tag-instructions">
 							Prove you're a human.  What color is a clear sky? (hint: it begins with a 'b')
 						</span>
-						{{ form.tags.errors }}
+						<span class='form-error'>{{ form.human.errors }}</span>
 						<input type="text" name="human" id='prove-human' class="form-control" value="" placeholder="">
 					</div>
 					<br>
@@ -113,5 +114,4 @@
 		{% endblock %}
 	</div>
 </body>
-<script src="{% static 'posts/js/marks.js' %}"></script>
 </html>
