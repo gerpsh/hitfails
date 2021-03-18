@@ -1,6 +1,6 @@
 Django==1.8.2
 Markdown==2.6.2
-Pillow==2.9.0
+Pillow==8.1.1
 SQLAlchemy==1.0.8
 Whoosh==2.7.0
 dj-database-url==0.3.0
