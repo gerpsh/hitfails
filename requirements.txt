@@ -14,5 +14,5 @@ markdown2==2.3.0
 psycopg2==2.6.1
 pytz==2015.4
 static3==0.6.1
-urllib3==1.11
+urllib3==1.26.5
 wsgiref==0.1.2
